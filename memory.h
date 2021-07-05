@@ -1,18 +1,20 @@
-#ifndef __MEMORY_H__
-#define __MEMORY_H__
+#ifndef MEMORY_H
+#define MEMORY_H
 
 #include <iostream>
 #include <vector>
-#include <Cartridge.h>
-
-using u8 = uint8_t;
-using u16 = uint16_t;
+#include "types.h"
+#include "cartridge.h"
 
 class Memory {
-	std::vector<Byte> ROM;
+	std::vector<u8> WRAM;
+
+	// Components
+	Cartridge &cartridge;
 
 public:
-	void LoadROM(Cartridge ROM);
+	Memory(Cartridge &c);
+	~Memory();
 
 	u8& operator[](u16 addr);
 };

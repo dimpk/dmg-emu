@@ -2,9 +2,9 @@
 #include "cpu.h"
 #include "memory.h"
 
-CPU::CPU(Memory &MMU) : MMU(MMU)
+CPU::CPU(Memory &m) : mem(m)
 {
-
+	Init();
 }
 
 void CPU::Init()
@@ -55,64 +55,81 @@ void CPU::InterruptHandler()
 
 void CPU::Execute()
 {
-	Byte opcode; 
+	u8 opcode; 
 
-	InterruptHandler();
+//	InterruptHandler();
 
-	opcode = MMU[PC++];
+	opcode = mem[PC++];
 
 	switch (opcode) { // todo: replace with table
+	// NOP
+	case 0x00:
+		Cycles++;
+		break;
+
 	// 8-bit Loads	
 	case 0x06:
-		B = MMU[PC]; // LD B, n
+		B = mem[PC]; // LD B, n
 		PC++;
 		Cycles++;
 		break;
 	case 0x0E:
-		C = MMU[PC]; // LD C, n
+		C = mem[PC]; // LD C, n
 		PC++;
 		Cycles++;
 		break;
 	case 0x16:
-		D = MMU[PC]; // LD D, n
+		D = mem[PC]; // LD D, n
 		PC++;
 		Cycles++;
 		break;
 	case 0x1E:
-		E = MMU[PC]; // LD E, n
+		E = mem[PC]; // LD E, n
 		PC++;
 		Cycles++;
 		break;
 	case 0x26:
-		H = MMU[PC]; // LD H, n
+		H = mem[PC]; // LD H, n
 		PC++;
 		Cycles++;
 		break;
 	case 0x2E:
-		L = MMU[PC]; // LD L, n
+		L = mem[PC]; // LD L, n
 		PC++;
 		Cycles++;
 		break;
 
-	default:
-		std::cerr << "Unknown instruction: " << hex << opcode;
+	case 0x5D:
+ 		E = L;
+		Cycles++;
 		break;
+
+	// Jumps
+	case 0xC3:
+		PC = mem[PC];
+		PC++;
+		break;
+
+	default:
+		std::cerr << "Unknown instruction: " << std::hex << (unsigned)opcode << "\n";
+		break;
+	}
 }
 
 void CPU::Push(u8 data)
 {
-	MMU[--SP] = data;
+	mem[--SP] = data;
 }
 
 void CPU::Pop(u8& data)
 {
-	data = MMU[SP++];
+	data = mem[SP++];
 }
 
 void CPU::Push(u16 data)
 {
-	Push(static_cast<Byte>(data & 0xFF));
-	Push(static_cast<Byte>(data >> 8));
+	Push(static_cast<u8>(data & 0xFF));
+	Push(static_cast<u8>(data >> 8));
 }
 
 void CPU::Pop(u16& data)

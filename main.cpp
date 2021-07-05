@@ -1,12 +1,14 @@
 #include <iostream>
-#include "cartridge.h"
+#include "dmg.h"
 
 int main ()
 {
 	std::cout << "Gameboy Emulator\n";
 
-	Cartridge C;
-	C.Insert("PokemonRed.gb");
-	C.PrintInfo();
+	DMG Emulator;
+	Emulator.cartridge->Insert("Dr.Mario.gb");
+	for (int i = 0; i < 4; i++)
+		Emulator.cpu->Execute();
+
 	return 0;
 }

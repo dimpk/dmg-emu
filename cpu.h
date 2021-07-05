@@ -1,35 +1,21 @@
-#ifndef __CPU_H__
-#define __CPU_H__
+#ifndef CPU_H
+#define CPU_H
 
-using u8 = uint8_t;
-using u16 = uint16_t;
-using u32 = uint32_t;
-
+#include "types.h"
 
 class Memory;
 
 class CPU {
-	union RegPair {
-		struct {
-			u8 L;
-			u8 H;			
-		};
-		u16 pair;
-	} rpAF, rpBC, rpDE, rpHL;
-
 	// Registers
+	RegPair rpAF, rpBC, rpDE, rpHL;
 	u16 &AF = rpAF.pair;
 	u16 &BC = rpBC.pair;
 	u16 &DE = rpDE.pair;
 	u16 &HL = rpHL.pair;
-	u8 &A = rpAF.H;
-	u8 &F = rpAF.L;
-	u8 &B = rpBC.H;
-	u8 &C = rpBC.L;
-	u8 &D = rpDE.H;
-	u8 &E = rpDE.L;
-	u8 &H = rpHL.H;
-	u8 &L = rpHL.L;
+	u8 &A = rpAF.H, &F = rpAF.L;
+	u8 &B = rpBC.H, &C = rpBC.L;
+	u8 &D = rpDE.H, &E = rpDE.L;
+	u8 &H = rpHL.H, &L = rpHL.L;
 	u16 SP;
 	u16 PC;
 
@@ -62,10 +48,9 @@ class CPU {
 	u32 Cycles;
 
 	// Components
-	Memory &MMU;
+	Memory &mem;
 
 	void Init();
-	void Execute();
 
 	void InterruptHandler();
 
@@ -75,8 +60,9 @@ class CPU {
 	void Pop(u16& data);
 
 public:
+	CPU(Memory &m);
 
-
+	void Execute();
 };
 
 #endif

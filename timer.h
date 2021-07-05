@@ -1,12 +1,12 @@
-#ifndef __TIMER_H__
-#define __TIMER_H__
+#ifndef TIMER_H
+#define TIMER_H
 
-using u32 = uint32_t;
+#include "types.h"
 
 class Timer {
 
 public:
 	void Update(u32 cycles);
-}
+};
 
 #endif
