@@ -9,10 +9,10 @@ using u32 = uint32_t;
 
 union RegPair {
 	struct {
-		u8 L;
-		u8 H;			
+		u8 Low;
+		u8 High;			
 	};
-	u16 pair;
+	u16 Pair;
 };
 
 #endif

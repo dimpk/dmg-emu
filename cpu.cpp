@@ -1,6 +1,5 @@
 #include <iostream>
 #include "cpu.h"
-#include "memory.h"
 
 CPU::CPU(Memory &m) : mem(m)
 {
@@ -61,59 +60,7 @@ void CPU::Execute()
 
 	opcode = mem[PC++];
 
-	switch (opcode) { // todo: replace with table
-	// NOP
-	case 0x00:
-		Cycles++;
-		break;
-
-	// 8-bit Loads	
-	case 0x06:
-		B = mem[PC]; // LD B, n
-		PC++;
-		Cycles++;
-		break;
-	case 0x0E:
-		C = mem[PC]; // LD C, n
-		PC++;
-		Cycles++;
-		break;
-	case 0x16:
-		D = mem[PC]; // LD D, n
-		PC++;
-		Cycles++;
-		break;
-	case 0x1E:
-		E = mem[PC]; // LD E, n
-		PC++;
-		Cycles++;
-		break;
-	case 0x26:
-		H = mem[PC]; // LD H, n
-		PC++;
-		Cycles++;
-		break;
-	case 0x2E:
-		L = mem[PC]; // LD L, n
-		PC++;
-		Cycles++;
-		break;
-
-	case 0x5D:
- 		E = L;
-		Cycles++;
-		break;
-
-	// Jumps
-	case 0xC3:
-		PC = mem[PC];
-		PC++;
-		break;
-
-	default:
-		std::cerr << "Unknown instruction: " << std::hex << (unsigned)opcode << "\n";
-		break;
-	}
+	(this->*instr[opcode])();
 }
 
 void CPU::Push(u8 data)
@@ -134,9 +81,9 @@ void CPU::Push(u16 data)
 
 void CPU::Pop(u16& data)
 {
-	u8 L, H;
-	Pop(L);
-	Pop(H);
+	u8 Low, High;
+	Pop(Low);
+	Pop(High);
 
-	data = H + (L << 8);
+	data = High + (Low << 8);
 }
