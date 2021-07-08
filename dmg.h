@@ -1,6 +1,7 @@
 #ifndef DMG_H
 #define DMG_H
 
+#include <cstring>
 #include "cpu.h"
 #include "memory.h"
 #include "cartridge.h"
@@ -11,14 +12,19 @@ class Memory;
 
 class DMG {
 public:
+	// Components
 	CPU *cpu;
 	Memory *mem;
+	Cartridge *cartridge;
 
 public:
 	DMG();
 	~DMG();
 
-	Cartridge *cartridge;
+	void Run();
+
+	void InsertCartridge(std::string filename);
+
 };
 
 #endif

@@ -31,7 +31,7 @@ void CPU::InterruptHandler()
 
 		Push(PC);
 
-		if ((IF & INT_VBLANK) && (IE & INT_VBLANK)) {
+		if ((IF & Interrupts::INT_VBLANK) && (IE & INT_VBLANK)) {
 			IF &= ~INT_VBLANK;
 			PC = 0x40;
 		} else if ((IF & INT_LCDSTAT) && (IE & INT_LCDSTAT)) {
@@ -54,13 +54,13 @@ void CPU::InterruptHandler()
 
 void CPU::Execute()
 {
-	u8 opcode; 
-
 //	InterruptHandler();
 
-	opcode = mem[PC++];
+	Opcode = mem[PC++];
 
-	(this->*instr[opcode])();
+	Debug::PrintInstruction(this);
+	(this->*instr[Opcode])();
+	Debug::PrintRegisters(this);
 }
 
 void CPU::Push(u8 data)
@@ -86,4 +86,19 @@ void CPU::Pop(u16& data)
 	Pop(High);
 
 	data = High + (Low << 8);
+}
+
+void CPU::WriteMem16(const u16 data, const u16 addr)
+{
+	mem[addr] = (data & 0xFF);
+	mem[addr+1] = (data >> 8);
+}
+
+u16 CPU::ReadMem16(const u16 addr)
+{
+	u16 data;
+	data = mem[addr];
+	data += mem[addr+1] << 8;
+
+	return data;
 }

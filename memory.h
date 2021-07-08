@@ -16,7 +16,7 @@ public:
 	Memory(Cartridge &c);
 	~Memory();
 
-	u8& operator[](u16 addr);
+	u8& operator[](const u16 addr);
 };
 
 #endif

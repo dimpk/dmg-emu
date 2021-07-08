@@ -3,10 +3,10 @@
 
 Memory::Memory(Cartridge &c) : cartridge(c)
 {
-	WRAM = std::vector<u8>(0x2000);
+	WRAM = std::vector<u8>(0xFFFF);
 }
 
-u8& Memory::operator[](u16 addr)
+u8& Memory::operator[](const u16 addr)
 {
 	switch (addr & 0xF000) {
 		// ROM
@@ -35,6 +35,7 @@ u8& Memory::operator[](u16 addr)
 		case 0xC000:
 		case 0xD000:
 		case 0xE000:
+		case 0xF000:
 		default:
 			return WRAM[addr];
 	}

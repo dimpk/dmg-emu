@@ -4,6 +4,7 @@
 #include "types.h"
 #include "memory.h"
 #include "opcodes_macro.h"
+#include "debug.h"
 
 class Memory;
 
@@ -21,6 +22,13 @@ class CPU {
 	u16 SP;
 	u16 PC;
 
+	enum Flags {
+		F_C = 0x10,	// Carry Flag
+		F_H = 0x20,	// Half Carry Flag (BCD)
+		F_N = 0x40,	// Add/Sub Flag (BCD)
+		F_Z = 0x80	// Zero Flag
+	};
+	
 	// States
 	bool HaltMode;
 	bool StopMode;
@@ -47,6 +55,7 @@ class CPU {
 		INT_JOYPAD  = 0x10
 	};
 
+	u8 Opcode;
 	u8 Cycles;
 
 	// Components
@@ -61,12 +70,16 @@ class CPU {
 	void Push(u16 data);
 	void Pop(u16& data);
 
+	void WriteMem16(const u16 data,const u16 addr);
+	u16 ReadMem16(const u16 addr);
+
 	OPCODES_FUN;
 //	CB_OPCODES_FUN;
 
 	void (CPU::*instr[0x100])() = { OPCODES };
 //	void (CPU::*instrCB[0x100]) = { CB_OPCODES };
 
+	friend class Debug;
 public:
 	CPU(Memory &m);
 

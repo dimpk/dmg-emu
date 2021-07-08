@@ -6,9 +6,9 @@ int main ()
 	std::cout << "Gameboy Emulator\n";
 
 	DMG Emulator;
-	Emulator.cartridge->Insert("Dr.Mario.gb");
-	for (int i = 0; i < 4; i++)
-		Emulator.cpu->Execute();
+	Emulator.InsertCartridge("Dr.Mario.gb");
 
+	Emulator.Run();
+	
 	return 0;
 }
