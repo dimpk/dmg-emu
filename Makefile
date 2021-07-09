@@ -1,14 +1,14 @@
 CXX = g++
 CXXFLAGS = -Wall -g
 
-SRC = $(wildcard *.cpp)
+SRC = $(wildcard src/*.cpp)
 OBJ = $(SRC:.cpp=.o)
 
-%.o: %.cpp
+src/%.o: src/%.cpp
 	$(CXX) -c $< $(CXXFLAGS) -o $@
 
 dmg-emu: $(OBJ)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
 clean:
-	rm -f *.o dmg-emu
+	rm -f src/*.o dmg-emu
