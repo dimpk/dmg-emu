@@ -3,8 +3,9 @@
 
 DMG::DMG()
 {
-	cartridge = new Cartridge;
-	mem = new Memory(*cartridge);
+	ctg = new Cartridge;
+	gpu = new GPU;
+	mem = new Memory(*ctg, *gpu);
 	cpu = new CPU(*mem);
 }
 
@@ -17,12 +18,12 @@ void DMG::Run()
 
 void DMG::InsertCartridge(std::string filename)
 {
-	cartridge->Insert(filename);
+	ctg->Insert(filename);
 }
 
 DMG::~DMG()
 {
 	delete cpu;
 	delete mem;
-	delete cartridge;
+	delete ctg;
 }

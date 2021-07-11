@@ -92,7 +92,7 @@ void Debug::PrintInstruction(CPU *cpu)
 void Debug::PrintMemoryAccess(Memory *mem, const char* region, u16 addr)
 {
 	if (strcmp(region, "ROM") == 0)
-		printf(DEBUG_MEM "Memory access %s[0x%04X] 0x%02X\n", region, addr, mem->cartridge[addr]);
+		printf(DEBUG_MEM "Memory access %s[0x%04X] 0x%02X\n", region, addr, mem->ctg.ROM[addr]);
 	if (strcmp(region, "WRAM") == 0)
 		printf(DEBUG_MEM "Memory access %s[0x%04X] 0x%02X\n", region, addr, mem->WRAM[addr & 0x1FFF]);
 }

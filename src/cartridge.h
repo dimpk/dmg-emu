@@ -10,11 +10,11 @@ class Cartridge {
 	const char* RAMSize[0x06];
 	const char* DestCode[0x02];
 
-	u8 *ROM, *RAM;
-
 	bool Inserted;
 
 public:
+	u8 *ROM, *RAM;
+	
 	Cartridge();
 	void Insert(std::string filename);
 	void Remove();

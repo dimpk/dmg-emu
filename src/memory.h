@@ -5,18 +5,20 @@
 #include <vector>
 #include "types.h"
 #include "cartridge.h"
+#include "gpu.h"
 #include "debug.h"
 
 class Memory {
-	std::vector<u8> WRAM;
-	std::vector<u8> HRAM;
+	u8 WRAM[0x2000]; // $C000 - $DFFF, 8kB Work RAM
+	u8 HRAM[0x007F]; // $FF80 - $FFFE, 127B RAM
 
 	// Components
-	Cartridge &cartridge;
+	Cartridge &ctg;
+	GPU &gpu;
 
 	friend class Debug;
 public:
-	Memory(Cartridge &c);
+	Memory(Cartridge &c, GPU &g);
 	~Memory();
 
 	u8& operator[](const u16 addr);

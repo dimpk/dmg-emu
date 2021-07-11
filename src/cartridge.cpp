@@ -111,9 +111,3 @@ void Cartridge::Remove()
 		Inserted = false;
 	}
 }
-
-u8& Cartridge::operator[](u16 addr)
-{
-	return ROM[addr];
-}
-	

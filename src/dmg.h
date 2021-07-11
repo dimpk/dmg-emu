@@ -15,7 +15,8 @@ public:
 	// Components
 	CPU *cpu;
 	Memory *mem;
-	Cartridge *cartridge;
+	Cartridge *ctg;
+	GPU *gpu;
 
 public:
 	DMG();
